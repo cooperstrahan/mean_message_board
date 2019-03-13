@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dojo Message Board</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+    .cont {
+        margin: 2.5% auto;
+        width: 80%;
+    }
+    .secondary {
+        width: 80%;
+        padding-left: 2.5%;
+    }
+    .nom {
+        margin: 0px;
+        padding: 0px;
+    }
+</style>
+<body>
+    <div class='cont'>
+        <h1>Dojo Message Board</h1>
+        <form class='form-group' action="/message" method="POST">
+            <p class="nom">Name: </p>
+            <input type="text" name='name'>
+            <p class="nom">Message: </p>
+            <textarea class='form-control' rows="3" name="message"></textarea>
+            <br>
+            <button class="btn btn-primary">Submit</button>
+        </form>
+        <% for (var m in messages) { %>
+        <h5><%= messages[m].name %></h5>
+        <p><%= messages[m].message %></p>
+        <div class="secondary">
+            <% if(messages[m].comments.length > 0) { %>
+                <% for (var x=0; x < messages[m].comments.length; x++) {%>
+                    <h6><%= messages[m].comments[x].name %></h6>
+                    <p><%= messages[m].comments[x].comment %></p>
+                <% } %>
+            <% } %>
+            <form class='form-group' action="/comment/<%=messages[m].id%>" method="POST">
+                <p class="nom">Name: </p>
+                <input type="text" name='name'>
+                <p class="nom">Comment: </p>
+                <textarea class='form-control' rows="2" name="comment"></textarea>
+                <br>
+                <button class="btn btn-success">Submit</button>
+            </form>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
